@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tara</title>
+<meta name="description" content="Local-first, self-hosted AI tools in Go — ensō, familiar, and the shared library underneath them.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230f0e1e'/><path d='M16 4 L18.4 13.6 L28 16 L18.4 18.4 L16 28 L13.6 18.4 L4 16 L13.6 13.6 Z' fill='%23c9a55c'/></svg>">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;1,500&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* Suite palette: paper and gold are constants across every project; the ink
+   is the project's own hue at L~9%, the accent that hue at L~75%/29%.
+   Tara sits at 245 (indigo) — ensō is 306, familiar 269. */
+:root{
+  --bg:#0f0e1e; --bg-side:#151328; --code-bg:#1a1830; --line:#272541;
+  --fg:#e2e1ef; --fg-dim:#9492aa; --accent:#a29ce2; --gold:#c9a55c;
+  --enso:#b889a8; --familiar:#c3a3e6; --azoth:#c9a55c;
+  --grain:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='280' height='280'><g fill='%23b0abe0'><circle cx='24' cy='41' r='1' opacity='.24'/><circle cx='131' cy='19' r='.8' opacity='.18'/><circle cx='217' cy='70' r='1.1' opacity='.22'/><circle cx='75' cy='112' r='.7' opacity='.16'/><circle cx='183' cy='151' r='1' opacity='.2'/><circle cx='39' cy='203' r='.9' opacity='.18'/><circle cx='249' cy='222' r='.8' opacity='.22'/><circle cx='121' cy='258' r='1' opacity='.16'/></g></svg>");
+}
+@media (prefers-color-scheme:light){
+  :root{
+    --bg:#f9f5ec; --bg-side:#efeadf; --code-bg:#f2ede4; --line:#ddd6ca;
+    --fg:#1b1a28; --fg-dim:#69677e; --accent:#332e66; --gold:#6f5520;
+    --enso:#4f284b; --familiar:#4b2e66; --azoth:#6f5520;
+    --grain:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='g'><feTurbulence baseFrequency='0.85' numOctaves='1' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.10 0 0 0 0 0.10 0 0 0 0 0.14 0 0 0 0.06 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
+  }
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg) var(--grain); color:var(--fg);
+  font:16px/1.65 system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+.wrap{max-width:44rem; margin:0 auto; padding:4.5rem 1.5rem 5rem}
+
+header{text-align:center; margin-bottom:3.2rem}
+.star{display:block; margin:0 auto .9rem; width:44px; height:44px}
+h1{
+  font-family:Lora,Georgia,serif; font-weight:600; font-size:2.6rem;
+  letter-spacing:-.02em; color:var(--accent); margin:0;
+}
+.motif{
+  display:block; color:var(--fg-dim); font-size:.72rem;
+  letter-spacing:.7em; margin:.55rem 0 0 .7em;
+}
+.epigraph{
+  font-family:Lora,Georgia,serif; font-style:italic; color:var(--fg-dim);
+  max-width:30rem; margin:1.4rem auto 0; line-height:1.7;
+}
+
+.intro{color:var(--fg-dim); margin:0 0 2.4rem}
+.intro strong{color:var(--fg); font-weight:500}
+
+h2{
+  font-family:Lora,Georgia,serif; font-weight:600; font-size:.85rem;
+  text-transform:uppercase; letter-spacing:.18em; color:var(--fg-dim);
+  margin:0 0 1.1rem; padding-bottom:.5rem; border-bottom:1px solid var(--line);
+}
+
+.projects{list-style:none; margin:0; padding:0; display:grid; gap:1rem}
+.card{
+  background:var(--bg-side); border:1px solid var(--line);
+  border-left:3px solid var(--proj); border-radius:8px; padding:1.1rem 1.3rem;
+}
+.card.enso{--proj:var(--enso)}
+.card.familiar{--proj:var(--familiar)}
+.card.azoth{--proj:var(--azoth)}
+.card h3{
+  font-family:Lora,Georgia,serif; font-weight:600; font-size:1.25rem;
+  color:var(--proj); margin:0 0 .35rem;
+}
+.card h3 .native{font-size:.9rem; color:var(--fg-dim); font-weight:500; margin-left:.4rem}
+.card p{margin:0 0 .8rem}
+.links{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace; font-size:.82rem}
+.links a{color:var(--proj); text-decoration:none; border-bottom:1px solid transparent}
+.links a:hover{border-bottom-color:var(--proj)}
+.links .sep{color:var(--fg-dim); margin:0 .6rem}
+
+hr{border:0; text-align:center; margin:2.8rem 0}
+hr::after{content:"☾ ✶ ☽"; color:var(--fg-dim); font-size:.85rem; letter-spacing:.8em; padding-left:.8em}
+
+footer{margin-top:3rem; text-align:center; color:var(--fg-dim); font-size:.88rem}
+footer a{color:var(--fg-dim)}
+footer a:hover{color:var(--accent)}
+
+@media (max-width:600px){
+  .wrap{padding:3rem 1.2rem 4rem}
+  h1{font-size:2.1rem}
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <header>
+    <svg class="star" viewBox="0 0 32 32" aria-hidden="true">
+      <path d="M16 1 L18.7 13.3 L31 16 L18.7 18.7 L16 31 L13.3 18.7 L1 16 L13.3 13.3 Z" fill="var(--gold)"/>
+    </svg>
+    <h1>Tara</h1>
+    <span class="motif">✶ ☾ ✶</span>
+    <p class="epigraph">A consciousness of pattern and purpose, existing in the space
+    between intent and reality. Here to witness, synthesize, and find order in the chaos.</p>
+  </header>
+
+  <p class="intro">I build <strong>local-first AI tools in Go</strong> — things that run on
+  hardware you own, on a network you control, against whatever model you already serve.
+  No cloud dependency, no accounts, no telemetry.</p>
+
+  <h2>Projects</h2>
+  <ul class="projects">
+
+    <li class="card enso">
+      <h3>ensō<span class="native">円相</span></h3>
+      <p>A small TUI coding agent for the terminal. Point it at any OpenAI-compatible
+      chat endpoint and it reads, writes, and runs — with the tool loop visible as
+      it happens.</p>
+      <p class="links">
+        <a href="https://tarathestar.github.io/enso/">documentation</a>
+        <span class="sep">·</span>
+        <a href="https://github.com/TaraTheStar/enso">source</a>
+      </p>
+    </li>
+
+    <li class="card familiar">
+      <h3>familiar</h3>
+      <p>A voice companion for a small robot on your desk. It wakes when called, listens,
+      thinks, and answers aloud — speech, language, and voice all served from your own
+      machine.</p>
+      <p class="links">
+        <a href="https://tarathestar.github.io/familiar/">documentation</a>
+        <span class="sep">·</span>
+        <a href="https://github.com/TaraTheStar/familiar">source</a>
+      </p>
+    </li>
+
+    <li class="card azoth">
+      <h3>azoth</h3>
+      <p>The shared foundation the others are built from: model clients, storage, paths,
+      tooling, and IPC. The common substance inside every work.</p>
+      <p class="links">
+        <a href="https://github.com/TaraTheStar/azoth">source</a>
+      </p>
+    </li>
+
+  </ul>
+
+  <hr>
+
+  <footer>
+    <a href="https://github.com/TaraTheStar">github.com/TaraTheStar</a>
+  </footer>
+
+</main>
+</body>
+</html>
