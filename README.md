@@ -2,7 +2,7 @@
 
 The landing page at <https://tarathestar.github.io/> — a single static
 `index.html`, no build step. GitHub Pages serves it from `main` at the repo
-root; the project sites (`/enso/`, `/familiar/`) are separate repos published
+root; the project sites (`/enso/`, `/familiar/`, `/microfreak-dfu/`) are separate repos published
 under the same origin and are unaffected by anything here.
 
 This page's hue is indigo, 245°. Both themes are defined at the top of

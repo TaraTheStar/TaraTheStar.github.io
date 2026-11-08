@@ -11,18 +11,18 @@
 
 /* Suite palette: paper and gold are constants across every project; the ink
    is the project's own hue at L~9%, the accent that hue at L~75%/29%.
-   Tara sits at 245 (indigo) — ensō is 306, familiar 269. */
+   Tara sits at 245 (indigo) — ensō is 306, familiar 269, microfreak-dfu 190. */
 :root{
   --bg:#0f0e1e; --bg-side:#151328; --code-bg:#1a1830; --line:#272541;
   --fg:#e2e1ef; --fg-dim:#9492aa; --accent:#a29ce2; --gold:#c9a55c;
-  --enso:#b889a8; --familiar:#c3a3e6; --azoth:#c9a55c;
+  --enso:#b889a8; --familiar:#c3a3e6; --azoth:#c9a55c; --microfreak:#9fd0d8;
   --grain:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='280' height='280'><g fill='%23b0abe0'><circle cx='24' cy='41' r='1' opacity='.24'/><circle cx='131' cy='19' r='.8' opacity='.18'/><circle cx='217' cy='70' r='1.1' opacity='.22'/><circle cx='75' cy='112' r='.7' opacity='.16'/><circle cx='183' cy='151' r='1' opacity='.2'/><circle cx='39' cy='203' r='.9' opacity='.18'/><circle cx='249' cy='222' r='.8' opacity='.22'/><circle cx='121' cy='258' r='1' opacity='.16'/></g></svg>");
 }
 @media (prefers-color-scheme:light){
   :root{
     --bg:#f9f5ec; --bg-side:#efeadf; --code-bg:#f2ede4; --line:#ddd6ca;
     --fg:#1b1a28; --fg-dim:#69677e; --accent:#332e66; --gold:#6f5520;
-    --enso:#4f284b; --familiar:#4b2e66; --azoth:#6f5520;
+    --enso:#4f284b; --familiar:#4b2e66; --azoth:#6f5520; --microfreak:#29595f;
     --grain:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='g'><feTurbulence baseFrequency='0.85' numOctaves='1' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.10 0 0 0 0 0.10 0 0 0 0 0.14 0 0 0 0.06 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
   }
 }
@@ -66,6 +66,8 @@ h2{
 .card.enso{--proj:var(--enso)}
 .card.familiar{--proj:var(--familiar)}
 .card.azoth{--proj:var(--azoth)}
+.card.microfreak{--proj:var(--microfreak)}
+h2.also{margin-top:2.4rem}
 .card h3{
   font-family:Lora,Georgia,serif; font-weight:600; font-size:1.25rem;
   color:var(--proj); margin:0 0 .35rem;
@@ -140,6 +142,24 @@ footer a:hover{color:var(--accent)}
       tooling, and IPC. The common substance inside every work.</p>
       <p class="links">
         <a href="https://github.com/TaraTheStar/azoth">source</a>
+      </p>
+    </li>
+
+  </ul>
+
+  <h2 class="also">Also</h2>
+  <ul class="projects">
+
+    <li class="card microfreak">
+      <h3>microfreak-dfu</h3>
+      <p>Update an Arturia MicroFreak's firmware from Linux, where Arturia's MIDI Control
+      Center does not run. The USB DFU exchange it performs, recovered from its binary and
+      done from a browser tab or a Python command line. Not Go, not AI; a synth that needed
+      updating.</p>
+      <p class="links">
+        <a href="https://tarathestar.github.io/microfreak-dfu/">updater</a>
+        <span class="sep">·</span>
+        <a href="https://github.com/TaraTheStar/microfreak-dfu">source</a>
       </p>
     </li>
 
